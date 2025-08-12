@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install broker dependencies
+        run: |
+          cd broker
+          npm install
+      - name: Lint scripts
+        run: |
+          npx prettier --check scripts/client-handshake.js
+          npx eslint scripts/client-handshake.js
+      - name: Run broker tests
+        run: |
+          cd broker
+          npm test
+      - name: Test host agent
+        run: |
+          cd host-agent
+          swift test
+      - name: Test client
+        run: |
+          cd client
+          swift test

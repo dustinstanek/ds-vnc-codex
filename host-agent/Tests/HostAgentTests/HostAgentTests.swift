@@ -42,4 +42,23 @@ final class HostAgentTests: XCTestCase {
         CommandLine.arguments = ["HostAgent", "--broker-url", "ws://example.com"]
         XCTAssertNil(parseArguments())
     }
+  
+    func testBuildAuthPayloadCreatesJSON() throws {
+        let tmpDir = FileManager.default.temporaryDirectory
+        let keyFile = tmpDir.appendingPathComponent("host_key.pub")
+        try "my-key\n".write(to: keyFile, atomically: true, encoding: .utf8)
+
+        guard let data = buildAuthPayload(hostID: "abc", keyPath: keyFile.path) else {
+            XCTFail("Expected payload data")
+            return
+        }
+        let obj = try JSONSerialization.jsonObject(with: data) as? [String: String]
+        XCTAssertEqual(obj?["host_id"], "abc")
+        XCTAssertEqual(obj?["key"], "my-key")
+    }
+
+    func testBuildAuthPayloadMissingKeyFile() {
+        let data = buildAuthPayload(hostID: "abc", keyPath: "/nonexistent")
+        XCTAssertNil(data)
+    }
 }
