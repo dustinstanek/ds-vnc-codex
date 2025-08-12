@@ -54,17 +54,13 @@ final class BrokerConnection {
     }
 
     private func authenticate(hostID: String, keyPath: String) {
-        guard let data = FileManager.default.contents(atPath: keyPath),
-              let key = String(data: data, encoding: .utf8) else {
+        guard let sendData = buildAuthPayload(hostID: hostID, keyPath: keyPath) else {
             NSLog("Unable to read key at \(keyPath)")
             return
         }
-        let payload: [String: String] = ["host_id": hostID, "key": key.trimmingCharacters(in: .whitespacesAndNewlines)]
-        if let sendData = try? JSONSerialization.data(withJSONObject: payload, options: []) {
-            task?.send(.data(sendData)) { error in
-                if let error = error {
-                    NSLog("Failed to send auth: \(error)")
-                }
+        task?.send(.data(sendData)) { error in
+            if let error = error {
+                NSLog("Failed to send auth: \(error)")
             }
         }
     }
@@ -87,6 +83,18 @@ final class BrokerConnection {
             self?.receive()
         }
     }
+}
+
+func buildAuthPayload(hostID: String, keyPath: String) -> Data? {
+    guard let data = FileManager.default.contents(atPath: keyPath),
+          let key = String(data: data, encoding: .utf8) else {
+        return nil
+    }
+    let payload: [String: String] = [
+        "host_id": hostID,
+        "key": key.trimmingCharacters(in: .whitespacesAndNewlines)
+    ]
+    return try? JSONSerialization.data(withJSONObject: payload, options: [])
 }
 
 func parseArguments() -> HostAgentConfig? {
@@ -121,21 +129,4 @@ func parseArguments() -> HostAgentConfig? {
 
     print("Usage: HostAgent --host-id <ID> --broker-url <URL> [--key-path <PATH>]")
     return nil
-}
-
-let signalSource = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
-signal(SIGTERM, SIG_IGN)
-signalSource.setEventHandler {
-    exit(0)
-}
-signalSource.resume()
-
-if let config = parseArguments() {
-    let monitor = RemoteManagementMonitor()
-    monitor.start()
-
-    let broker = BrokerConnection(url: config.brokerURL)
-    broker.connect(hostID: config.hostID, keyPath: config.keyPath)
-
-    RunLoop.current.run()
 }
