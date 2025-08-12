@@ -110,11 +110,16 @@ func parseArguments() -> HostAgentConfig? {
         }
     }
 
-    if let hostID = hostID, let brokerURL = brokerURL, let keyPath = keyPath {
-        return HostAgentConfig(hostID: hostID, brokerURL: brokerURL, keyPath: keyPath)
+    let defaultKeyPath = FileManager.default
+        .homeDirectoryForCurrentUser
+        .appendingPathComponent(".ds-vnc/keys/host_key.pub")
+        .path
+
+    if let hostID = hostID, let brokerURL = brokerURL {
+        return HostAgentConfig(hostID: hostID, brokerURL: brokerURL, keyPath: keyPath ?? defaultKeyPath)
     }
 
-    print("Usage: HostAgent --host-id <ID> --broker-url <URL> --key-path <PATH>")
+    print("Usage: HostAgent --host-id <ID> --broker-url <URL> [--key-path <PATH>]")
     return nil
 }
 
