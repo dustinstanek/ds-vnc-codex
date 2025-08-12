@@ -31,6 +31,16 @@ final class RemoteSession: ObservableObject {
         }
     }
 
+    private let keysDirectory = FileManager.default
+        .homeDirectoryForCurrentUser
+        .appendingPathComponent(".ds-vnc/keys")
+
+    private func loadKey(named name: String) throws -> String {
+        let url = keysDirectory.appendingPathComponent(name)
+        return try String(contentsOf: url)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     /// Authenticate with the broker and establish a WebRTC/SSH tunnel.
     func connect(to host: Host) {
         connectionState = .connecting
@@ -46,12 +56,18 @@ final class RemoteSession: ObservableObject {
     }
 
     private func authenticate() async throws {
-        // TODO: Implement authentication with broker using secure credentials.
+        let clientKey = try loadKey(named: "client_key")
+        // TODO: Send `clientKey` to the broker as part of authentication.
         try await Task.sleep(nanoseconds: 500_000_000)
     }
 
     private func establishTunnel(to host: Host) async throws {
-        // TODO: Use WebRTC or SSH to create a secure tunnel to the host.
+        let expectedHostKey = try loadKey(named: "host_key.pub")
+        // TODO: Retrieve `actualHostKey` from the host during tunnel setup.
+        let actualHostKey = expectedHostKey // Placeholder until handshake implemented.
+        guard actualHostKey == expectedHostKey else {
+            throw NSError(domain: "RemoteSession", code: 1, userInfo: [NSLocalizedDescriptionKey: "Host identity mismatch"])
+        }
         try await Task.sleep(nanoseconds: 500_000_000)
     }
 }
