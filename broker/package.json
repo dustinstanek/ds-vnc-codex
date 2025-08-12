@@ -1,0 +1,16 @@
+{
+  "name": "broker",
+  "version": "1.0.0",
+  "description": "Simple broker server for host registration and WebRTC/SSH offer relay",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0",
+    "uuid": "^9.0.1",
+    "ioredis": "^5.3.2"
+  }
+}
