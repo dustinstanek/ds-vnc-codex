@@ -1,4 +1,4 @@
-const WebSocket = require("../broker/node_modules/ws");
+import WebSocket from "ws";
 
 const url = process.argv[2];
 if (!url) {
