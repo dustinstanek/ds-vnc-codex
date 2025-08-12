@@ -9,29 +9,18 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Install Swift 6.1.0
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang libicu-dev
+          wget https://download.swift.org/swift-6.1-release/ubuntu2204/swift-6.1-RELEASE/swift-6.1-RELEASE-ubuntu22.04.tar.gz
+          tar xzf swift-6.1-RELEASE-ubuntu22.04.tar.gz
+          sudo mv swift-6.1-RELEASE-ubuntu22.04 /usr/share/swift
+          echo 'export PATH=/usr/share/swift/usr/bin:$PATH' >> $GITHUB_ENV      
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Install Swift 6.1.0
-        run: | 
-          sudo apt```yaml
-    steps:
-      - uses: actions/checkout@v4
-      - name:-get update
-      sudo apt-get install -y wget
-    Install Swift 6.1.0
-    run: |
-      sudo apt-get update
-      sudo apt-get install -y clang libicu-dev
-      wget https://download.swift.org/swift-6.1-release/
-      wget https://download.swift.org/swift-6.ubuntu2204/swift-6.1-RELEASE/swift-6.1-RELEASE-ubuntu221-release/ubuntu2204/swift-6.1-RELEASE/swift-6.1-RELEASE-ubuntu22.04.tar.gz
-      tar xzf swift-6.1-RELEASE.04.tar.gz
-      tar xzf swift-6.1-RELEASE-ubuntu22.04.tar.gz-ubuntu22.04.tar.gz
-      sudo mv swift-6.1-RE
-      sudo mv swift-6.1-RELEASE-ubuntu22.04 /LEASE-ubuntu22.04 /usr/share/swift
-      echo 'export PATHusr/share/swift-6.1
-      echo "export PATH=/usr/share/swift-=/usr/share/swift/usr/bin:$PATH' >> $GITHUB_ENV6.1/usr/bin:$PATH" >> $GITHUB_ENV
       - name: Install broker dependencies
         run: |
           cd broker
@@ -44,9 +33,6 @@ jobs:
         run: |
           cd broker
           npm test
-
-
-          
       - name: Test host agent
         run: |
           cd host-agent
