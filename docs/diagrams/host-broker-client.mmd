@@ -1,0 +1,8 @@
+sequenceDiagram
+    participant Host
+    participant Broker
+    participant Client
+    Host->>Broker: Register availability
+    Client->>Broker: Request session
+    Broker->>Host: Initiate connection
+    Host-->>Client: Stream VNC
