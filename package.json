@@ -1,0 +1,19 @@
+{
+  "name": "ds-vnc-codex",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototype repository for building a macOS remote access tool.",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint scripts/**/*.js",
+    "format": "prettier -w eslint.config.js scripts/*.js",
+    "test": "echo \"No tests specified\""
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.1.1"
+  },
+  "dependencies": {
+    "ws": "^8.17.0"
+  }
+}
