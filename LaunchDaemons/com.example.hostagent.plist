@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.hostagent</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/host-agent</string>
+        <string>--host-id</string>
+        <string>HOST_ID_PLACEHOLDER</string>
+        <string>--broker-url</string>
+        <string>BROKER_URL_PLACEHOLDER</string>
+        <string>--key-path</string>
+        <string>/usr/local/etc/host-agent.key</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>
