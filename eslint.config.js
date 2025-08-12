@@ -2,10 +2,8 @@ export default [
   {
     languageOptions: {
       ecmaVersion: 2021,
-      sourceType: "commonjs",
+      sourceType: "module",
       globals: {
-        require: "readonly",
-        module: "readonly",
         process: "readonly",
         console: "readonly",
       },
