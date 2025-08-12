@@ -42,7 +42,7 @@ final class HostAgentTests: XCTestCase {
         CommandLine.arguments = ["HostAgent", "--broker-url", "ws://example.com"]
         XCTAssertNil(parseArguments())
     }
-
+  
     func testBuildAuthPayloadCreatesJSON() throws {
         let tmpDir = FileManager.default.temporaryDirectory
         let keyFile = tmpDir.appendingPathComponent("host_key.pub")
