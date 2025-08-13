@@ -2,6 +2,8 @@
 
 Prototype repository for building a macOS remote access tool.
 
+Swift components require Swift 6.1 or later.
+
 ## Architecture
 
 ```mermaid

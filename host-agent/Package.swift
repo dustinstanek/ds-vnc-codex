@@ -1,4 +1,4 @@
-// swift-tools-version:6.1
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
@@ -9,6 +9,7 @@ let package = Package(
     products: [
         .executable(name: "HostAgent", targets: ["HostAgent"])
     ],
+    dependencies: [],
     targets: [
         .executableTarget(
             name: "HostAgent"
@@ -17,5 +18,6 @@ let package = Package(
             name: "HostAgentTests",
             dependencies: ["HostAgent"]
         )
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
