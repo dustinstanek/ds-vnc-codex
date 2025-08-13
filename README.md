@@ -29,6 +29,42 @@ The system consists of:
 2. Launch the broker from the `broker` package.
 3. Build and run the client as described in [docs/client_usage.md](docs/client_usage.md).
 
+## Local Development and Testing
+
+### Prerequisites
+
+- Node.js 18+
+- Swift 6.1+
+- (Optional) Redis for broker persistence
+
+### Broker
+
+```bash
+cd broker
+npm install
+npm test
+npm start
+```
+
+### Client
+
+```bash
+cd client
+swift build
+swift test
+swift run
+```
+
+### Host Agent
+
+```bash
+cd host-agent
+swift build
+swift test
+```
+
+Refer to the docs in `docs/` for detailed usage instructions.
+
 ## Security Considerations
 
 - Restrict access to the broker and use authentication where possible.
