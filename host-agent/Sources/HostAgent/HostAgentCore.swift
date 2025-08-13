@@ -10,7 +10,7 @@ struct HostAgentConfig {
     let keyPath: String
 }
 
-final class RemoteManagementMonitor {
+final class RemoteManagementMonitor: @unchecked Sendable {
     private var timer: Timer?
     private let interval: TimeInterval = 60
 
@@ -36,7 +36,7 @@ final class RemoteManagementMonitor {
     }
 }
 
-final class BrokerConnection {
+final class BrokerConnection: @unchecked Sendable {
     private let url: URL
     private let session: URLSession
     private var task: URLSessionWebSocketTask?
@@ -97,12 +97,12 @@ func buildAuthPayload(hostID: String, keyPath: String) -> Data? {
     return try? JSONSerialization.data(withJSONObject: payload, options: [])
 }
 
-func parseArguments() -> HostAgentConfig? {
+func parseArguments(_ arguments: [String] = CommandLine.arguments) -> HostAgentConfig? {
     var hostID: String?
     var brokerURL: URL?
     var keyPath: String?
 
-    var iterator = CommandLine.arguments.dropFirst().makeIterator()
+    var iterator = arguments.dropFirst().makeIterator()
     while let arg = iterator.next() {
         switch arg {
         case "--host-id":

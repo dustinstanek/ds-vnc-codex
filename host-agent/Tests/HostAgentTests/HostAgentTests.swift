@@ -7,14 +7,14 @@ final class HostAgentTests: XCTestCase {
         let keyFile = tmpDir.appendingPathComponent("host_key.pub")
         try "TEST_KEY".write(to: keyFile, atomically: true, encoding: .utf8)
 
-        CommandLine.arguments = [
+        let args = [
             "HostAgent",
             "--host-id", "123",
             "--broker-url", "ws://localhost:3000",
             "--key-path", keyFile.path
         ]
 
-        guard let config = parseArguments() else {
+        guard let config = parseArguments(args) else {
             XCTFail("parseArguments returned nil")
             return
         }
@@ -24,12 +24,12 @@ final class HostAgentTests: XCTestCase {
     }
 
     func testParseArgumentsUsesDefaultKeyPath() {
-        CommandLine.arguments = [
+        let args = [
             "HostAgent",
             "--host-id", "abc",
             "--broker-url", "ws://example.com"
         ]
-        let config = parseArguments()
+        let config = parseArguments(args)
         XCTAssertNotNil(config)
         let expected = FileManager.default
             .homeDirectoryForCurrentUser
@@ -39,8 +39,8 @@ final class HostAgentTests: XCTestCase {
     }
 
     func testParseArgumentsMissingRequired() {
-        CommandLine.arguments = ["HostAgent", "--broker-url", "ws://example.com"]
-        XCTAssertNil(parseArguments())
+        let args = ["HostAgent", "--broker-url", "ws://example.com"]
+        XCTAssertNil(parseArguments(args))
     }
   
     func testBuildAuthPayloadCreatesJSON() throws {

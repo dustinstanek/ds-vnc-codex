@@ -16,7 +16,7 @@ sequenceDiagram
 ## Installation
 
 1. Navigate to the `client` directory.
-2. Build the Swift package:
+2. Build the Swift 6.1 package:
    ```bash
    swift build
    ```

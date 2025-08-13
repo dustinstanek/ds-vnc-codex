@@ -19,5 +19,6 @@ let package = Package(
             name: "ClientApp",
             dependencies: []
         )
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
